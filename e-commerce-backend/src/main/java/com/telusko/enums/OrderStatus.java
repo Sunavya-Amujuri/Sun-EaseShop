@@ -1,0 +1,5 @@
+package com.telusko.enums;
+
+public enum OrderStatus {
+    PENDING, CONFIRMED, PACKED, SHIPPED ,DELIVERED, CANCELED, RETURN_REQUEST, RETURNED, REFUNDED
+}
