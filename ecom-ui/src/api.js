@@ -1,6 +1,6 @@
 // All backend calls in one place. Relative URLs go through the Vite proxy to Spring Boot.
 
-const BASE = `${import.meta.env.VITE_API_URL}/api/v1`;
+const BASE = `https://sun-easeshop.onrender.com/api/v1`;
 
 const ACCESS_KEY = 'ecom.accessToken';
 const REFRESH_KEY = 'ecom.refreshToken';
