@@ -1,6 +1,8 @@
 package com.telusko.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
+
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.prompt.ChatOptions;
@@ -401,6 +403,21 @@ public class ProductService {
                 """, category, name, description, brand);
 
         return aiImageGenerator.generateImage(imagePrompt);
+    }
+
+    @Transactional
+    public int reindexAllProducts() {
+        List<Product> all = products.findAll();   // or findByActiveTrue() if you only want active ones
+        int count = 0;
+        for (Product p : all) {
+            // Force category to load if it's lazy
+            if (p.getCategory() != null) {
+                p.getCategory().getName();
+            }
+            appVectors.indexProduct(p);
+            count++;
+        }
+        return count;
     }
 
 }
