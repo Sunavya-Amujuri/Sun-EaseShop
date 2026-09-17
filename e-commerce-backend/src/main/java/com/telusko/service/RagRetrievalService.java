@@ -55,10 +55,27 @@ public class RagRetrievalService {
 
         return observed("catalog-search", matches);
     }
+    // private List<Document> observed(String feature, List<Document> matches) {
+    //     List<Document> safe = matches == null ? List.of() : matches;
+    //     return safe;
+    // }
+
     private List<Document> observed(String feature, List<Document> matches) {
-        List<Document> safe = matches == null ? List.of() : matches;
-        return safe;
+    List<Document> safe = matches == null ? List.of() : matches;
+
+    System.out.println("=== RAG " + feature + " ===");
+    System.out.println("Match count: " + safe.size());
+
+    for (Document document : safe) {
+        System.out.println(
+                "Document: " + document.getId()
+                        + " | metadata=" + document.getMetadata()
+                        + " | text=" + document.getText()
+        );
     }
+
+    return safe;
+}
     /**
      * Joins matches into one block of text ready to drop into a prompt.
      * Returns an empty string when nothing matched, which callers use to decide whether to fall
