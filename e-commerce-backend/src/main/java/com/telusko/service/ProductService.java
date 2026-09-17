@@ -130,6 +130,8 @@ public class ProductService {
                     .getResult();
 
             String modelOutput = generation.getOutput().getText();
+            System.out.println("=== SMART SEARCH AI OUTPUT ===");
+            System.out.println(modelOutput);
 
             BeanOutputConverter<List<Long>> outputConverter =
                     new BeanOutputConverter<>(new ParameterizedTypeReference<>() {});
