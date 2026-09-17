@@ -1,7 +1,6 @@
 package com.telusko.service;
 
 import jakarta.persistence.EntityNotFoundException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.Generation;
 import org.springframework.ai.chat.prompt.ChatOptions;
@@ -31,7 +30,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
-@RequiredArgsConstructor
 public class ProductService {
 
     private final ProductRepository products;
@@ -45,12 +43,34 @@ public class ProductService {
     private final ResourceLoader resourceLoader;
     private final AIImageGeneratorService aiImageGenerator;
 
+    private final ChatClient chatClient;
+
+    public ProductService(
+            ProductRepository products,
+            CategoryRepository categories,
+            CloudinaryService cloudinary,
+            AppVectorStoreService appVectors,
+            RagRetrievalService ragRetrieval,
+            ResourceLoader resourceLoader,
+            AIImageGeneratorService aiImageGenerator,
+            @Qualifier("oneShotChatClient") ChatClient chatClient) {
+
+        this.products = products;
+        this.categories = categories;
+        this.cloudinary = cloudinary;
+        this.appVectors = appVectors;
+        this.ragRetrieval = ragRetrieval;
+        this.resourceLoader = resourceLoader;
+        this.aiImageGenerator = aiImageGenerator;
+        this.chatClient = chatClient;
+    }
+
     /**
      * Memory-free client. Product search is a one-shot call, and the conversational client's
      * memory advisor rejects calls that have no conversation id.
      */
-    @Qualifier("oneShotChatClient")
-    private final ChatClient chatClient;
+
+    // @Qualifier("oneShotChatClient")
     public List<ProductResponseDto> semanticSearchProducts(String userQuery) {
         // An empty search box has nothing to embed. This reached the vector store and came back as
         // a 500, which is the wrong answer to "you searched for nothing".
