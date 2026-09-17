@@ -49,7 +49,7 @@ public class RagRetrievalService {
                 SearchRequest.builder()
                         .query(query)
                         .topK(topK)
-                        .similarityThreshold(CATALOG_MIN_SIMILARITY)
+                       // .similarityThreshold(CATALOG_MIN_SIMILARITY)
                         .filterExpression(filter)
                         .build());
 
