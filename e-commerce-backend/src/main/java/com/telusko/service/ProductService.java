@@ -39,7 +39,7 @@ public class ProductService {
     private final CloudinaryService cloudinary;
     private final AppVectorStoreService appVectors;
 
-    private static final int SEARCH_CANDIDATE_POOL = 22;
+    private static final int SEARCH_CANDIDATE_POOL = 30;
 
     private final RagRetrievalService ragRetrieval;
     private final ResourceLoader resourceLoader;

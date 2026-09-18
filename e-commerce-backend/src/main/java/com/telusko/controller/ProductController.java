@@ -128,7 +128,8 @@ public class ProductController {
     }
 
     @PostMapping("/admin/reindex")
-    @PreAuthorize("hasRole('ADMIN')")   // only admin can call this
+    @PreAuthorize("hasRole('ADMIN')")
+    @SecurityRequirement(name = "bearerAuth")
     public ResponseEntity<Map<String, Object>> reindexAllProducts() {
         int count = productService.reindexAllProducts();
         return ResponseEntity.ok(Map.of(
