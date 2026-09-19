@@ -2,7 +2,6 @@ package com.telusko.controller;
 import com.telusko.service.RagRetrievalService;
 
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import lombok.RequiredArgsConstructor;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.document.Document;
@@ -25,7 +24,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/ecommerce/ai")
-@RequiredArgsConstructor
 public class ChatBotController {
 
     private final ChatClient chatClient;
@@ -34,6 +32,20 @@ public class ChatBotController {
     private final RagRetrievalService ragRetrieval;
     private final QueryTransformer queryRewriter;
     private final OrderRepository orders;
+
+    public ChatBotController(
+        ChatClient chatClient,
+        @Qualifier("oneShotChatClient") ChatClient oneShotChatClient,
+        RagRetrievalService ragRetrieval,
+        QueryTransformer queryRewriter,
+        OrderRepository orders
+) {
+    this.chatClient = chatClient;
+    this.oneShotChatClient = oneShotChatClient;
+    this.ragRetrieval = ragRetrieval;
+    this.queryRewriter = queryRewriter;
+    this.orders = orders;
+}
 
     @PostMapping("/assistant")
     @SecurityRequirement(name = "bearerAuth")
