@@ -12,10 +12,13 @@ import org.springframework.data.repository.query.Param;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
 
     Page<Order> findByUser(User user, Pageable pageable);
+
+    Optional<Order> findByOrderNumberAndUser_Email(String orderNumber, String email);
 
     Page<Order> findByStatus(OrderStatus status, Pageable pageable);
 
