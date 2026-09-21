@@ -30,8 +30,7 @@ export default function Register() {
     <div className="auth-wrap">
       <div className="center" style={{ marginBottom: 18 }}>
         <Link to="/" className="row" style={{ justifyContent: 'center', gap: 9, textDecoration: 'none' }}>
-          <span className="logo-mark">T</span>
-          <span className="logo-text" style={{ color: 'var(--ink)' }}>Telusko<span style={{ color: 'var(--accent-strong)' }}>Mart</span></span>
+          <span className="logo-text" style={{ color: 'var(--ink)' }}>Sun-Ease<span style={{ color: 'var(--accent-strong)' }}>Mart</span></span>
         </Link>
       </div>
 
