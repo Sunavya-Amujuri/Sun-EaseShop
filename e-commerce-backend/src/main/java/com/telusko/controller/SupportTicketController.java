@@ -13,16 +13,12 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import com.telusko.tools.SupportTicketTools;
-
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.memory.ChatMemory;
-
 import java.util.Map;
-
-
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/api/v1/ecommerce/support")

@@ -374,4 +374,14 @@ public class ShoppingAssistantService {
             return reason;
         }
     }
+
+    @Transactional(readOnly = true)
+public List<Order> getCustomerOrders(String userEmail) {
+    User user = requireUser(userEmail);
+
+    return orders.findByUser(
+            user,
+            PageRequest.of(0, 100, Sort.by(Sort.Direction.DESC, "placedAt"))
+    ).getContent();
+}
 }
