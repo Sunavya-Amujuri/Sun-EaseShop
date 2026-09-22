@@ -4,7 +4,7 @@ import { api } from '../api.js';
 import { useAuth, useCart } from '../store.jsx';
 import { Alert, Loading, Money, Spinner, Thumb, useAsync } from '../ui.jsx';
 
-const SUGGESTED = ['Is this good for beginners?', 'What material is it made of?', 'How do I care for it?'];
+const SUGGESTED = ['What material is it made of?', 'How do I care for it?'];
 
 /**
  * Ask-about-this-product.
