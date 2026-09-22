@@ -3,12 +3,6 @@ import { api } from '../api.js';
 import { useAuth } from '../store.jsx';
 import { Spinner } from '../ui.jsx';
 
-const OPENERS = [
-  'Where is my order?',
-  'What is your return policy?',
-  'Do you sell yoga mats?',
-];
-
 /**
  * Floating customer assistant.
  *
@@ -69,14 +63,6 @@ export default function AiAssistant() {
         {messages.map((m, i) => (
           <div key={i} className={`ai-msg ${m.from}`}>{m.text}</div>
         ))}
-
-        {messages.length === 1 && (
-          <div className="chips" style={{ marginTop: 4 }}>
-            {OPENERS.map((q) => (
-              <button key={q} className="chip" onClick={() => send(q)}>{q}</button>
-            ))}
-          </div>
-        )}
 
         {sending && (
           <div className="ai-msg bot row" style={{ gap: 8 }}>
