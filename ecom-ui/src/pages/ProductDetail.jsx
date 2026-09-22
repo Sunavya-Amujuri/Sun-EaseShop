@@ -4,8 +4,6 @@ import { api } from '../api.js';
 import { useAuth, useCart } from '../store.jsx';
 import { Alert, Loading, Money, Spinner, Thumb, useAsync } from '../ui.jsx';
 
-const SUGGESTED = ['What material is it made of?', 'How do I care for it?'];
-
 /**
  * Ask-about-this-product.
  *
@@ -58,12 +56,6 @@ function ProductQa({ productId }) {
           {asking ? <Spinner light /> : 'Ask'}
         </button>
       </form>
-
-      <div className="chips" style={{ marginTop: 10 }}>
-        {SUGGESTED.map((q) => (
-          <button key={q} className="chip" onClick={() => ask(q)} disabled={asking}>{q}</button>
-        ))}
-      </div>
 
       {error && <div style={{ marginTop: 12 }}><Alert>{error}</Alert></div>}
       {answer && <div className="ai-note" style={{ marginTop: 12 }}>{answer}</div>}
