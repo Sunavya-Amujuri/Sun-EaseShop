@@ -172,8 +172,6 @@ export const api = {
 
   // ---------- AI, customer facing ----------
   assistant: (message) => request('/ecommerce/ai/assistant', { method: 'POST', body: message }),
-  askAboutProduct: (productId, question) =>
-    request(`/ecommerce/ai/products/${productId}/ask`, { method: 'POST', body: question }),
   recommendations: (limit = 4) => get(`/ecommerce/ai/recommendations?limit=${limit}`),
   cartSuggestions: (limit = 4) => get(`/ecommerce/ai/cart/suggestions?limit=${limit}`),
   returnEligibility: (orderId) => get(`/ecommerce/ai/orders/${orderId}/return-eligibility`),

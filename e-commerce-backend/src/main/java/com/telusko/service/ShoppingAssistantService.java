@@ -29,13 +29,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * The customer-facing AI features: asking questions about a product, getting recommendations,
+ * The customer-facing AI features: getting recommendations,
  * cart suggestions, and finding out whether an order can be returned.
  * <p>
  * They all follow the same rule: facts come from the database or the vector store, and the model
  * only does the wording. Recommending a product that does not exist, or telling a customer a
  * refund is coming when the policy says otherwise, is worse than showing nothing.
  */
+
 @Service
 @Slf4j
 public class ShoppingAssistantService {
@@ -80,58 +81,6 @@ public class ShoppingAssistantService {
             - Be honest. If the information given does not answer the question, say so plainly.
             - Never invent prices, stock levels, delivery dates, specifications or policies.
             """;
-
-    @Transactional(readOnly = true)
-    public String askAboutProduct(Long productId, String question) {
-        Product product = products.findByIdAndActiveTrue(productId)
-                .orElseThrow(() -> new EntityNotFoundException("Product not found with id: " + productId));
-
-        // The product's own record is the primary source; similar items add useful comparison
-        // context for questions like "is there something cheaper?".
-        String similar = ragRetrieval.asContext(
-                ragRetrieval.searchCatalogExcluding(question, List.of(productId), 3));
-
-        String productFacts = """
-                Name: %s
-                Description: %s
-                Category: %s
-                Price: %s
-                In stock: %s (%d available)
-                """.formatted(
-                product.getName(),
-                product.getDescription() == null ? "(none provided)" : product.getDescription(),
-                product.getCategory() != null ? product.getCategory().getName() : "Uncategorised",
-                product.getPrice(),
-                product.getStockQty() != null && product.getStockQty() > 0 ? "yes" : "no",
-                product.getStockQty() == null ? 0 : product.getStockQty());
-
-        String systemPrompt = """
-                You help a shopper decide about one specific product in an online store.
-                
-                Answer only from the product details provided. The listing is short, so many
-                questions genuinely cannot be answered from it - when that happens, say the
-                listing does not mention it and suggest contacting support. Do not guess
-                specifications.
-                
-                %s
-                """.formatted(PLAIN_TEXT_RULES);
-
-        String userPrompt = """
-                PRODUCT THE SHOPPER IS ASKING ABOUT
-                %s
-                
-                OTHER ITEMS IN THE CATALOG (only mention these if the shopper asks for alternatives)
-                %s
-                
-                Shopper's question: %s
-                """.formatted(productFacts, similar.isEmpty() ? "(none)" : similar, question);
-
-        return chatClient.prompt()
-                .system(systemPrompt)
-                .user(userPrompt)
-                .call()
-                .content();
-    }
 
     private User requireUser(String userEmail) {
         return users.findByEmail(userEmail)

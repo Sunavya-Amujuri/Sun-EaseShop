@@ -88,7 +88,7 @@ export default function Header() {
           <input
             value={term}
             onChange={(e) => setTerm(e.target.value)}
-            placeholder="Search products, try “something for my yoga practice”"
+            placeholder="Search products”"
             aria-label="Search products"
           />
           <button type="submit" aria-label="Search">

@@ -4,65 +4,6 @@ import { api } from '../api.js';
 import { useAuth, useCart } from '../store.jsx';
 import { Alert, Loading, Money, Spinner, Thumb, useAsync } from '../ui.jsx';
 
-/**
- * Ask-about-this-product.
- *
- * Scoped to one product on the backend, which is what stops "is it waterproof?" being answered
- * about some other item. The backend also refuses to invent specifications the listing does not
- * contain, so a "not mentioned" answer here is correct behaviour rather than a failure.
- */
-function ProductQa({ productId }) {
-  const { user } = useAuth();
-  const [question, setQuestion] = useState('');
-  const [answer, setAnswer] = useState('');
-  const [asking, setAsking] = useState(false);
-  const [error, setError] = useState('');
-
-  if (!user) return null;
-
-  async function ask(text) {
-    const q = (text ?? question).trim();
-    if (!q) return;
-    setQuestion(q);
-    setAsking(true);
-    setError('');
-    setAnswer('');
-    try {
-      const res = await api.askAboutProduct(productId, q);
-      setAnswer(res.answer);
-    } catch (e) {
-      setError(e.message);
-    } finally {
-      setAsking(false);
-    }
-  }
-
-  return (
-    <div className="panel" style={{ marginTop: 20 }}>
-      <div className="section-head">
-        <h2>Ask about this product</h2>
-        <span className="badge badge-ai">✨ AI</span>
-      </div>
-
-      <form className="row" onSubmit={(e) => { e.preventDefault(); ask(); }} style={{ gap: 8 }}>
-        <input
-          className="input"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-          placeholder="e.g. Is this suitable for daily use?"
-          disabled={asking}
-        />
-        <button className="btn btn-dark" disabled={asking || !question.trim()}>
-          {asking ? <Spinner light /> : 'Ask'}
-        </button>
-      </form>
-
-      {error && <div style={{ marginTop: 12 }}><Alert>{error}</Alert></div>}
-      {answer && <div className="ai-note" style={{ marginTop: 12 }}>{answer}</div>}
-    </div>
-  );
-}
-
 export default function ProductDetail() {
   const { productId } = useParams();
   const navigate = useNavigate();
@@ -136,8 +77,6 @@ export default function ProductDetail() {
             <div className="spec-row"><span className="spec-key">Category</span><span>{product.categoryName || 'Uncategorised'}</span></div>
             <div className="spec-row"><span className="spec-key">Availability</span><span>{outOfStock ? 'Out of stock' : `${stock} in stock`}</span></div>
           </div>
-
-          <ProductQa productId={product.id} />
         </div>
 
         <aside className="pdp-buybox">

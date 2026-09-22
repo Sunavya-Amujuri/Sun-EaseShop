@@ -4,8 +4,7 @@ import ProductCard from '../components/ProductCard.jsx';
 import { Alert, Empty, ProductSkeletons, useAsync } from '../ui.jsx';
 
 /**
- * Results from the backend's semantic search: the query is embedded and matched against the
- * catalog, so "something for my yoga practice" finds a yoga mat without sharing a keyword.
+ * Results from the backend's semantic search.
  */
 export default function Search() {
   const [params] = useSearchParams();
